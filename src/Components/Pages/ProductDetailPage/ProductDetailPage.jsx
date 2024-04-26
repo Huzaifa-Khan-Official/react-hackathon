@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { getAllProducts, getProductDetail } from '../../../Services/products.service';
+import ProductDetailCard from '../../ProductDetailCard/ProductDetailCard';
 
 export default function ProductDetailPage() {
     const { id } = useParams()
@@ -22,8 +23,12 @@ export default function ProductDetailPage() {
     console.log("products ==>", productDetail);
 
     return (
-        <div>
+        <div className='px-4'>
             <h1>Product Detail:</h1>
+
+            {
+                productDetail ? <ProductDetailCard productDetail={productDetail}/> : <h2>Loading...</h2>
+            }
         </div>
     )
 }

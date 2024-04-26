@@ -14,7 +14,7 @@ export default function AllProductsPage() {
     }, []);
 
     return (
-        <div>
+        <div className='px-4'>
             <h1>All Products</h1>
 
             <div className='row justify-content-center'>

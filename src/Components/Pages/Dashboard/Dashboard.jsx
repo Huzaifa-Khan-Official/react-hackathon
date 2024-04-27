@@ -5,7 +5,6 @@ import Modal from '../../Modal/Modal';
 
 export default function Dashboard() {
     const [products, setProducts] = useState(null);
-    // const [show, setShow] = useState(false);
 
     useEffect(() => {
         const unsubscribe = getAllProducts((productsList) => {
@@ -17,7 +16,6 @@ export default function Dashboard() {
 
     return (
         <div>
-            {/* {show && <Modal />} */}
             <Modal />
             <div className="navbar px-3">
                 <h1>Admin Dashboard</h1>

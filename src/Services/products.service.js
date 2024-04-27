@@ -1,6 +1,7 @@
-import { collection, deleteDoc, doc, getDoc, onSnapshot } from "firebase/firestore";
-import { db } from "../Configurations/FirbaseConfiguration/firebase.config";
+import { addDoc, collection, deleteDoc, doc, getDoc, onSnapshot } from "firebase/firestore";
+import { db, storage } from "../Configurations/FirbaseConfiguration/firebase.config";
 import { productEntity } from "../lib/productEntities";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 export const getAllProducts = (callback) => {
     try {
@@ -32,6 +33,53 @@ export const getProductDetail = async (id) => {
 }
 
 export const deleteProduct = async (id) => {
-    console.log(id);
     await deleteDoc(doc(db, `${productEntity}/${id}`));
 }
+
+export const addProduct = async (data) => {
+    console.log("aagaya me");
+    const docRef = await addDoc(collection(db, `${productEntity}`), {
+        ...data
+    });
+    console.log("Document written with ID: ", docRef.id);
+}
+
+
+const prdocutImageUrl = (file) => {
+    return new Promise((resolve, reject) => {
+        const productImageRef = ref(storage, `products/${file.name}/`);
+        const uploadTask = uploadBytesResumable(productImageRef, file);
+
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                switch (snapshot.state) {
+                    case 'paused':
+                        break;
+                    case 'running':
+                        // profilePicDiv.innerHTML = `
+                        // <div class="spinner-border" role="status">
+                        //     <span class="visually-hidden">Loading...</span>
+                        // </div>
+                        // `
+
+                        console.log("running...");
+                        break;
+                }
+            },
+            (error) => {
+                reject(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref)
+                    .then((downloadURL) => {
+                        resolve(downloadURL);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            }
+        );
+    });
+};

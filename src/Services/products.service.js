@@ -37,11 +37,11 @@ export const deleteProduct = async (id) => {
 }
 
 export const addProduct = async (data) => {
-    console.log("aagaya me");
-    const docRef = await addDoc(collection(db, `${productEntity}`), {
+    const imageUrl = await prdocutImageUrl(data.imageUrl[0])
+    data.imageUrl = imageUrl;
+    await addDoc(collection(db, `${productEntity}`), {
         ...data
     });
-    console.log("Document written with ID: ", docRef.id);
 }
 
 
@@ -58,13 +58,6 @@ const prdocutImageUrl = (file) => {
                     case 'paused':
                         break;
                     case 'running':
-                        // profilePicDiv.innerHTML = `
-                        // <div class="spinner-border" role="status">
-                        //     <span class="visually-hidden">Loading...</span>
-                        // </div>
-                        // `
-
-                        console.log("running...");
                         break;
                 }
             },

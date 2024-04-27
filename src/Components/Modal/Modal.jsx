@@ -1,26 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import "./Modal.css"
 import { useForm } from 'react-hook-form';
 import { addProduct } from '../../Services/products.service';
-import AddProductImage from '../AddProductImage/AddProductImage';
 
 export default function Modal() {
     const {
         register,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm()
-
-    // useEffect(() => {
-    //     fetch('https://dummyjson.com/products')
-    //         .then(res => res.json())
-    //         .then(console.log);
-    // }, [])
+    const imageRef = useRef();
+    const file = watch("imageUrl");
 
     const onSubmit = (data) => {
         window.$('#exampleModal').modal('hide');
         addProduct(data)
     }
+
+    if(file && file.length > 0) {
+        imageRef.current.style.display = "block";
+        imageRef.current.src = URL.createObjectURL(file[0]);
+    }
+
     return (
         <div>
             <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -76,8 +78,21 @@ export default function Modal() {
                                     })}></textarea>
                                     {(errors && errors.description) && <span>{errors.description.message}</span>}
                                 </div>
-
-                                <AddProductImage />
+                                <div className='inputDiv mb-3'>
+                                    <label className='form-label'>Product Image:</label>
+                                    <div className="productImage">
+                                        <img alt="" className='dummyProductImage' ref={imageRef}/>
+                                    </div>
+                                    <div className="productImageInputDiv">
+                                        <input type="file" accept="image/*" {...register("imageUrl", {
+                                            required: {
+                                                value: true,
+                                                message: "Please insert the product image"
+                                            }
+                                        })} />
+                                        {(errors && errors.imageUrl) && <span>{errors.imageUrl.message}</span>}
+                                    </div>
+                                </div>
 
                             </div>
                             <div className="modal-footer">

@@ -2,3 +2,10 @@
     color: red;
     margin: 10px 0;
 }
+
+.dummyProductImage {
+    display: none;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}

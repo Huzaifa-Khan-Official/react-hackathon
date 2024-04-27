@@ -8,11 +8,6 @@ export default function ProductDetailPage() {
     const [productDetail, setProductDetail] = useState(null);
 
     useEffect(() => {
-        // const unsubscribe = getProductDetail((id, productsList) => {
-        //     setProductDetail(productsList);
-        // });
-
-        // return () => unsubscribe();
         (async () => {
             const response = await getProductDetail(id)
 
@@ -20,12 +15,10 @@ export default function ProductDetailPage() {
             return () => response();
         })()
     }, []);
-    console.log("products ==>", productDetail);
 
     return (
         <div className='px-4'>
             <h1>Product Detail:</h1>
-
             {
                 productDetail ? <ProductDetailCard productDetail={productDetail}/> : <h2>Loading...</h2>
             }

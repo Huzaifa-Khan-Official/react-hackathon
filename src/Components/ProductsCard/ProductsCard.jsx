@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export default function ProductsCard(props) {
-    const { name, imageUrl, desciption, price, id } = props
+    const { name, imageUrl, price, id } = props
     return (
         <div className='col-md-4 col-12'>
             <div className="card" style={{ width: "18rem" }}>

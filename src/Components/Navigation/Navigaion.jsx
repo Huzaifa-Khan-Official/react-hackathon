@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from '../../App';
-import AllProductsPage from '../Pages/AllProducts/AllProductsPage';
 import ProductDetailPage from '../Pages/ProductDetailPage/ProductDetailPage';
 import Dashboard from '../Pages/Dashboard/Dashboard';
+import Loader from '../../Context/Context';
+// import Loader from '../../Context/Loader';
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <AllProductsPage />
+        element: <App />
     },
     {
         path: "/product/:id",
@@ -21,7 +22,11 @@ const router = createBrowserRouter([
 ]);
 
 export default function Navigaion() {
+    const [loader, setLoader] = useState(true);
+
     return (
-        <RouterProvider router={router} />
+        <Loader.Provider value={{ loader, setLoader }}>
+            <RouterProvider router={router} />
+        </Loader.Provider>
     )
 }

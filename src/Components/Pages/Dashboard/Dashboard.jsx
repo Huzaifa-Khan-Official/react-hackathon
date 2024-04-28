@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getAllProducts } from '../../../Services/products.service';
 import AllProductsTable from '../../AllProductsTable/AllProductsTable';
 import Modal from '../../Modal/Modal';
+import Loader from '../../../Context/Context';
+import LoaderComponent from '../../LoaderComponent/LoaderComponent';
 
 export default function Dashboard() {
     const [products, setProducts] = useState(null);
+    const { loader, setLoader } = useContext(Loader);
+
 
     useEffect(() => {
+        setLoader(true);
         const unsubscribe = getAllProducts((productsList) => {
             setProducts(productsList);
+            setLoader(false);
         });
 
         return () => unsubscribe();
@@ -23,7 +29,10 @@ export default function Dashboard() {
             </div>
 
             <div className='px-4'>
-                {products ? (
+                {
+                    loader && <LoaderComponent />
+                }
+                {products &&
                     <table className="table">
                         <thead>
                             <tr>
@@ -40,9 +49,7 @@ export default function Dashboard() {
                             ))}
                         </tbody>
                     </table>
-                ) : (
-                    <span>Loading...</span>
-                )}
+                }
             </div>
         </div>
     );

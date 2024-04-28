@@ -1,9 +1,10 @@
 import './App.css'
+import AllProductsPage from './Components/Pages/AllProducts/AllProductsPage'
 
 function App() {
   return (
     <>
-      <h1>Home Page</h1>
+      <AllProductsPage />
     </>
   )
 }
